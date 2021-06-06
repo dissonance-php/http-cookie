@@ -13,7 +13,7 @@ README.RU.md  [РУССКОЕ ОПИСАНИЕ](https://github.com/dissonance-ph
 
 ## Installation
 ```
-composer require dissonance/cookie 
+composer require dissonance/http-cookie 
 ```
 
 ## Using

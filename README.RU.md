@@ -13,7 +13,7 @@
 
 ## Установка
 ```
-composer require dissonance/cookie 
+composer require dissonance/http-cookie 
 ```
 
 ## Использование
