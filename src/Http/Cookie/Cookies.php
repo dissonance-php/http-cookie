@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symbiotic\Http\Cookie;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+
 
 class Cookies implements CookiesInterface
 {
@@ -17,10 +19,10 @@ class Cookies implements CookiesInterface
     /**
      * @var string|null
      */
-    protected ?string $domain;
+    protected ?string $domain = null;
 
     /**
-     * @var string if empty path, browser set request request path
+     * @var string if empty path, browser set request path
      */
     protected string $path = '';
 
@@ -38,7 +40,7 @@ class Cookies implements CookiesInterface
      * @var string|null
      * @uses \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_VALUES
      */
-    protected ?string $same_site;
+    protected ?string $same_site = null;
 
     /**
      * @var array [ name => value...]
@@ -49,14 +51,20 @@ class Cookies implements CookiesInterface
     /**
      * @param string|null $domain
      * @param string|null $path
-     * @param int|null $expires
-     * @param bool|null $secure
+     * @param int|null    $expires
+     * @param bool|null   $secure
      * @param string|null $same_site
-     * @return mixed|void
+     *
+     * @return void
      * @throws \Exception
      */
-    public function setDefaults(string $domain = null, string $path = null, int $expires = null, bool $secure = null, string $same_site = null)
-    {
+    public function setDefaults(
+        string $domain = null,
+        string $path = null,
+        int $expires = null,
+        bool $secure = null,
+        string $same_site = null
+    ): void {
         if ($domain) {
             $this->domain = $domain;
         }
@@ -81,19 +89,29 @@ class Cookies implements CookiesInterface
      * Set cookie to response
      *
      * @notice Please do not install serialized objects, this violates security!!! use json_encode
-     * @param string $name
-     * @param string $value
-     * @param int|null $expires
-     * @param bool|null $httponly
+     *
+     * @param string      $name
+     * @param string      $value
+     * @param int|null    $expires
+     * @param bool|null   $httponly
      * @param string|null $path
      * @param string|null $domain
-     * @param bool|null $secure
-     * @param array $options
+     * @param bool|null   $secure
+     * @param array       $options
+     *
      * @return array|\ArrayAccess
      *
      */
-    public function setCookie(string $name, string $value = '', int $expires = null, bool $httponly = null, bool $secure = null, string $path = null, string $domain = null,  array $options = [])
-    {
+    public function setCookie(
+        string $name,
+        string $value = '',
+        int $expires = null,
+        bool $httponly = null,
+        bool $secure = null,
+        string $path = null,
+        string $domain = null,
+        array $options = []
+    ): \ArrayAccess|array {
         $data = [
             'expires' => is_int($expires) ? $expires : $this->expires,
             'httponly' => !empty($httponly),
@@ -111,15 +129,15 @@ class Cookies implements CookiesInterface
         }
 
         return $this->items[] = $cookie;
-
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param string $value
+     *
      * @return array
      */
-    protected function create($name, $value = '')
+    protected function create(string $name, string $value = '')
     {
         return [
             'name' => $name,
@@ -130,7 +148,7 @@ class Cookies implements CookiesInterface
     /**
      * @param array $cookies [ name => value...]
      */
-    public function setRequestCookies(array $cookies)
+    public function setRequestCookies(array $cookies):void
     {
         $this->request_cookies = $cookies;
     }
@@ -164,7 +182,7 @@ class Cookies implements CookiesInterface
     /**
      * @inheritDoc
      */
-    public function get(string $name, string $default = null)
+    public function get(string $name, string $default = null):array|string|null
     {
         $cookies = $this->request_cookies;
         return $cookies[$name] ?? $default;
@@ -188,10 +206,12 @@ class Cookies implements CookiesInterface
         // todo
         return $request;
     }
+
     /**
      * Send cookies to response
      *
      * @param ResponseInterface $response
+     *
      * @return ResponseInterface
      */
     public function toResponse(ResponseInterface $response): ResponseInterface
@@ -207,6 +227,7 @@ class Cookies implements CookiesInterface
      * Get cookie header value from array
      *
      * @param array | \ArrayAccess $cookie
+     *
      * @return string
      */
     public function cookieToResponse(array|\ArrayAccess $cookie): string
@@ -214,17 +235,30 @@ class Cookies implements CookiesInterface
         return sprintf('%s=%s; ', $cookie['name'], urlencode($cookie['value']))
             . (!empty($cookie['domain']) ? 'Domain=' . $cookie['domain'] . '; ' : '')
             . (!empty($cookie['path']) ? 'Path=' . $cookie['path'] . '; ' : '')
-            . (isset($cookie['expires']) && $cookie['expires'] !== 0 ? sprintf('Expires=%s; ', gmdate('D, d M Y H:i:s T', $cookie['expires'])) : '')
-            . (isset($cookie['max_age']) && is_int($cookie['max_age']) ? sprintf('Max-Age=%d; ', $cookie['max_age']) : '')
+            . (isset($cookie['expires']) && $cookie['expires'] !== 0 ? sprintf(
+                'Expires=%s; ',
+                gmdate(
+                    'D, d M Y H:i:s T',
+                    $cookie['expires']
+                )
+            ) : '')
+            . (isset($cookie['max_age']) && is_int($cookie['max_age']) ? sprintf(
+                'Max-Age=%d; ',
+                $cookie['max_age']
+            ) : '')
             . (!empty($cookie['secure']) ? 'Secure; ' : '')
             . (!empty($cookie['httponly']) ? 'HttpOnly; ' : '')
-            . (!empty($cookie['same_site']) && in_array($cookie['same_site'], CookiesInterface::SAMESITE_VALUES) ? 'SameSite=' . $cookie['same_site'] . '; ' : '');
+            . (!empty($cookie['same_site']) && in_array(
+                $cookie['same_site'],
+                CookiesInterface::SAMESITE_VALUES
+            ) ? 'SameSite=' . $cookie['same_site'] . '; ' : '');
     }
 
     /**
      * Get an item at a given offset.
      *
      * @param mixed $key
+     *
      * @return mixed
      */
     public function offsetExists($key)
@@ -236,6 +270,7 @@ class Cookies implements CookiesInterface
      * Get an item at a given offset.
      *
      * @param mixed $key
+     *
      * @return string or null if not exists
      * @uses get()
      */
@@ -249,6 +284,7 @@ class Cookies implements CookiesInterface
      *
      * @param mixed $key
      * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($key, $value)
@@ -260,6 +296,7 @@ class Cookies implements CookiesInterface
      * Unset the item at a given offset.
      *
      * @param string|array $key
+     *
      * @return void
      */
     public function offsetUnset($key)

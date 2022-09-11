@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symbiotic\Http\Cookie;
@@ -26,22 +27,30 @@ interface CookiesInterface extends \ArrayAccess
      * Set global values for cookies
      *
      * @param string|null $domain
-     * @param bool|null $secure
-     * @param int|null $expires
+     * @param bool|null   $secure
+     * @param int|null    $expires
      * @param string|null $path
      * @param string|null $same_site
-     * @return mixed
+     *
+     * @return void
      */
-    public function setDefaults(string $domain = null, string $path = null, int $expires = null, bool $secure = null, string $same_site = null);
+    public function setDefaults(
+        string $domain = null,
+        string $path = null,
+        int $expires = null,
+        bool $secure = null,
+        string $same_site = null
+    ): void;
 
     /**
      * Installing cookies from the request for further work
      *
      * @param array $cookies - [name => value,...]
+     *
      * @see     ServerRequestInterface::getCookieParams()
      * @used-by CookiesMiddleware::process()
      */
-    public function setRequestCookies(array $cookies);
+    public function setRequestCookies(array $cookies): void;
 
     /**
      * @return array[]
@@ -55,16 +64,17 @@ interface CookiesInterface extends \ArrayAccess
     public function getResponseCookies(): array;
 
     /**
-     * @param string $name
-     * @param string $value
-     * @param int|null $expires
-     * @param bool|null $httponly
+     * @param string      $name
+     * @param string      $value
+     * @param int|null    $expires
+     * @param bool|null   $httponly
      * @param string|null $path
      * @param string|null $domain
-     * @param bool|null $secure
-     * @param array $options
+     * @param bool|null   $secure
+     * @param array       $options
      * set same_site as key , allowed values {@see CookiesInterface::SAMESITE_VALUES}
      * set max_age as key - Max-Age cookie param in value
+     *
      * @return array|\ArrayAccess
      */
     public function setCookie(
@@ -76,12 +86,13 @@ interface CookiesInterface extends \ArrayAccess
         string $path = null,
         string $domain = null,
         array $options = []
-    );
+    ): \ArrayAccess|array;
 
     /**
      * Sending the set cookies to the response headers
      *
      * @param ResponseInterface $response
+     *
      * @return ResponseInterface
      */
     public function toResponse(ResponseInterface $response): ResponseInterface;
@@ -90,6 +101,7 @@ interface CookiesInterface extends \ArrayAccess
      * Sending the set cookies to the response headers
      *
      * @param RequestInterface $request
+     *
      * @return RequestInterface
      */
     public function toRequest(RequestInterface $request): RequestInterface;
@@ -98,7 +110,8 @@ interface CookiesInterface extends \ArrayAccess
     /**
      * Checks if an a key is present and not null.
      *
-     * @param string|array $name
+     * @param string $name
+     *
      * @return bool
      */
     public function has(string $name): bool;
@@ -106,18 +119,20 @@ interface CookiesInterface extends \ArrayAccess
     /**
      * Getting cookies by name
      *
-     * @param string $name
+     * @param string      $name
      * @param string|null $default
+     *
      * @return string|array|null - array if setted 'cookie_name[key]' and getting 'cookie_name'
      * @link  https://www.php.net/manual/ru/function.setcookie.php -  array cookie in doc!
      */
-    public function get(string $name, string $default = null);
+    public function get(string $name, string $default = null): array|string|null;
 
     /**
      * Setting a cookie with default settings
      *
-     * @param string|array $name
-     * @param mixed $value
+     * @param string $name
+     * @param string $value
+     *
      * @return void
      */
     public function set(string $name, string $value = ''): void;
@@ -126,8 +141,8 @@ interface CookiesInterface extends \ArrayAccess
      * Deleting cookies, takes a name or an array of names
      *
      * @param string|string[] $names
-     * @return mixed
+     *
+     * @return void
      */
     public function remove(array|string $names): void;
-
 }

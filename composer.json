@@ -1,7 +1,7 @@
 {
   "name": "symbiotic/http-cookie",
   "description": "Slim (10Kb) implementation of working with cookies, with psr-15 middleware, without dependencies (psr interfaces only).",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "type": "library",
   "license": "MIT" ,
   "keywords": [
@@ -29,7 +29,7 @@
     }
   },
   "extra": {
-    "Symbiotic" : {
+    "symbiotic" : {
       "providers" : "Symbiotic\\Http\\Cookie\\CookiesProvider"
     }
   }

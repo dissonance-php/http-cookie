@@ -28,7 +28,6 @@ class CookiesMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-
         $this->cookies->setDefaults(
             $request->getUri()->getHost(),
             '/',
