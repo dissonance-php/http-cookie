@@ -1,5 +1,5 @@
-# Dissonance Http Cookie
-README.RU.md  [РУССКОЕ ОПИСАНИЕ](https://github.com/dissonance-php/http-cookie/blob/master/README.RU.md)
+# Symbiotic Http Cookie
+README.RU.md  [РУССКОЕ ОПИСАНИЕ](https://github.com/Symbiotic-php/http-cookie/blob/master/README.RU.md)
 ## Features
 
 - Accepts basic settings for installing cookies (domain, path, secure, expires, etc.)
@@ -13,7 +13,7 @@ README.RU.md  [РУССКОЕ ОПИСАНИЕ](https://github.com/dissonance-ph
 
 ## Installation
 ```
-composer require dissonance/http-cookie 
+composer require Symbiotic/http-cookie 
 ```
 
 ## Using
@@ -21,13 +21,13 @@ composer require dissonance/http-cookie
 For easier operation, the package has a ready-made PSR-15 Middleware,
 which itself will accept cookies from the request and send them in response:
 
-\Dissonance\Http\Cookie\CookiesMiddleware
+\Symbiotic\Http\Cookie\CookiesMiddleware
 
 
 ##### Initialization
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 // Setting default values
 $domain  = 'example.com';
@@ -35,7 +35,7 @@ $path    = '/';
 $expires = time() + (3600 * 24 * 365);
 $secure = true; // only https
 // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#attributes
-$same_site = \Dissonance\Http\Cookie\CookiesInterface::SAMESITE_LAX;
+$same_site = \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_LAX;
 
 $cookies->setDefaults($domain, $path, $expires, $secure, $same_site);
 
@@ -59,7 +59,7 @@ $cookies->setRequestCookies($_COOKIE);
 
 ```php
 
-$cookies = new Dissonance\Http\Cookie\Cookies();
+$cookies = new Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Checking for the presence of a cookie from the request, a cookie with an empty value also exists
@@ -83,12 +83,12 @@ $cookies->get('cookie_name', 'default_value'); // return string
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Short way to add cookies
  * the remaining parameters are taken from the default values set in the method:
- * @see \Dissonance\Http\Cookie\Cookies::setDefaults()
+ * @see \Symbiotic\Http\Cookie\Cookies::setDefaults()
  */
 $cookies->set('cookie_name', 'cookie value');
 
@@ -103,7 +103,7 @@ $secure = false; // only https
 $http_only = true; // only http request access
 // advanced params
 $options = [
-    'same_site' => \Dissonance\Http\Cookie\CookiesInterface::SAMESITE_STRICT,
+    'same_site' => \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_STRICT,
     'max_age' =>1000
 ];
 
@@ -116,12 +116,12 @@ $cookies->setCookie('cookie_name', 'cookie value', $expires, $http_only, $path, 
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Short way to delete cookies
  * the remaining parameters are taken from the default values set in the method:
- * @see \Dissonance\Http\Cookie\Cookies::setDefaults()
+ * @see \Symbiotic\Http\Cookie\Cookies::setDefaults()
  */
 $cookies->remove('cookie_name');
 
@@ -155,24 +155,24 @@ For easier data access and easier cookie installation, the class implements the 
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Getting a cookie from a request
- * @see \Dissonance\Http\Cookie\Cookies::get($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::get($key)
  */
 $value = $cookies['cookie_name']; // string|array or null if not exists
 
 /**
  * Setting a cookie in response 
  * (the domain and other parameters are taken from the default ones)
- * @see \Dissonance\Http\Cookie\Cookies::set($key, $value)
+ * @see \Symbiotic\Http\Cookie\Cookies::set($key, $value)
  */
 $cookies['new_cookie'] = 'value';
 
 /**
  * Checking the existence of a cookie from a request
- * @see \Dissonance\Http\Cookie\Cookies::has($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::has($key)
  */
 $exists  = isset($cookies['new_cookie']);
 
@@ -180,7 +180,7 @@ $exists  = isset($cookies['new_cookie']);
 
 /**
  * Delete cookie
- * @see \Dissonance\Http\Cookie\Cookies::remove($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::remove($key)
  */
 unset($cookies['cookie_name']);
 

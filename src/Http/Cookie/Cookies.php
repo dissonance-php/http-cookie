@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace Dissonance\Http\Cookie;
+namespace Symbiotic\Http\Cookie;
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class Cookies implements CookiesInterface
@@ -10,38 +12,38 @@ class Cookies implements CookiesInterface
     /**
      * @var array[]
      */
-    protected $items = [];
+    protected array $items = [];
 
     /**
      * @var string|null
      */
-    protected $domain;
+    protected ?string $domain;
 
     /**
      * @var string if empty path, browser set request request path
      */
-    protected $path = '';
+    protected string $path = '';
 
     /**
      * @var bool
      */
-    protected $secure = false;
+    protected bool $secure = false;
 
     /**
      * @var int
      */
-    protected $expires = 0;
+    protected int $expires = 0;
 
     /**
      * @var string|null
-     * @uses \Dissonance\Http\Cookie\CookiesInterface::SAMESITE_VALUES
+     * @uses \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_VALUES
      */
-    protected $same_site;
+    protected ?string $same_site;
 
     /**
      * @var array [ name => value...]
      */
-    protected $request_cookies = [];
+    protected array $request_cookies = [];
 
 
     /**
@@ -90,7 +92,7 @@ class Cookies implements CookiesInterface
      * @return array|\ArrayAccess
      *
      */
-    public function setCookie(string $name, string $value = '', int $expires = null, bool $httponly = null, string $path = null, string $domain = null, bool $secure = null, array $options = [])
+    public function setCookie(string $name, string $value = '', int $expires = null, bool $httponly = null, bool $secure = null, string $path = null, string $domain = null,  array $options = [])
     {
         $data = [
             'expires' => is_int($expires) ? $expires : $this->expires,
@@ -165,7 +167,7 @@ class Cookies implements CookiesInterface
     public function get(string $name, string $default = null)
     {
         $cookies = $this->request_cookies;
-        return isset($cookies[$name]) ? $cookies[$name] : $default;
+        return $cookies[$name] ?? $default;
     }
 
     /**
@@ -173,14 +175,19 @@ class Cookies implements CookiesInterface
      *
      * @param string[]|string $names
      */
-    public function remove($names): void
+    public function remove(array|string $names): void
     {
         foreach ((array)$names as $v) {
-            $this->setCookie($v, '', time() - (3600 * 48), true, $this->path, $this->domain);
+            $this->setCookie($v, '', time() - (3600 * 48), true, null, $this->path, $this->domain);
         }
     }
 
 
+    public function toRequest(RequestInterface $request): RequestInterface
+    {
+        // todo
+        return $request;
+    }
     /**
      * Send cookies to response
      *
@@ -202,7 +209,7 @@ class Cookies implements CookiesInterface
      * @param array | \ArrayAccess $cookie
      * @return string
      */
-    public function cookieToResponse($cookie)
+    public function cookieToResponse(array|\ArrayAccess $cookie): string
     {
         return sprintf('%s=%s; ', $cookie['name'], urlencode($cookie['value']))
             . (!empty($cookie['domain']) ? 'Domain=' . $cookie['domain'] . '; ' : '')
@@ -259,6 +266,4 @@ class Cookies implements CookiesInterface
     {
         $this->remove($key);
     }
-
-
 }

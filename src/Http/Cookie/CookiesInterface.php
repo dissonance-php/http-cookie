@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace Dissonance\Http\Cookie;
+namespace Symbiotic\Http\Cookie;
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 
@@ -42,8 +44,8 @@ interface CookiesInterface extends \ArrayAccess
     public function setRequestCookies(array $cookies);
 
     /**
-     * @return array[]|\ArrayAccess[]
-     * @uses \Dissonance\Http\Cookie\Cookies::$items
+     * @return array[]
+     * @uses \Symbiotic\Http\Cookie\Cookies::$items
      * @see  CookiesInterface::setCookie()
      * [
      *   0 => ['name' =>'c_name','value' => 'val','domain' =>'domain.com','path' => '/',..],
@@ -70,9 +72,9 @@ interface CookiesInterface extends \ArrayAccess
         string $value = '',
         int $expires = null,
         bool $httponly = null,
+        bool $secure = null,
         string $path = null,
         string $domain = null,
-        bool $secure = null,
         array $options = []
     );
 
@@ -83,6 +85,14 @@ interface CookiesInterface extends \ArrayAccess
      * @return ResponseInterface
      */
     public function toResponse(ResponseInterface $response): ResponseInterface;
+
+    /**
+     * Sending the set cookies to the response headers
+     *
+     * @param RequestInterface $request
+     * @return RequestInterface
+     */
+    public function toRequest(RequestInterface $request): RequestInterface;
 
 
     /**
@@ -118,6 +128,6 @@ interface CookiesInterface extends \ArrayAccess
      * @param string|string[] $names
      * @return mixed
      */
-    public function remove($names): void;
+    public function remove(array|string $names): void;
 
 }

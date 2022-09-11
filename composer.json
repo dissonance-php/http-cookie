@@ -1,39 +1,36 @@
 {
-  "name": "dissonance/http-cookie",
+  "name": "symbiotic/http-cookie",
   "description": "Slim (10Kb) implementation of working with cookies, with psr-15 middleware, without dependencies (psr interfaces only).",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "type": "library",
   "license": "MIT" ,
   "keywords": [
-    "dissonance",
+    "symbiotic",
     "psr7 cookie",
     "psr15",
     "cookie",
     "cookie middleware"
   ],
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=8.0",
     "psr/http-server-middleware": "^1.0",
     "psr/http-server-handler": "^1.0",
     "psr/http-message": "^1.0"
   },
   "require-dev": {
-    "dissonance/tests-http-cookie": "1.0.0"
+    "symbiotic/tests-http-cookie": "1.4.0"
   },
   "suggest": {
-    "dissonance/http-cookie-extended": "Extended version http-cookie",
-    "dissonance/web" : "Full build of the web version of the Dissonance framework with Http-Kernel, Middlewares etc....",
-    "dissonance/http-middlewares-support" : "PSR middleware dispatcher",
     "nyholm/psr7": "Http Message PSR-7 realisation"
   },
   "autoload": {
     "psr-4": {
-      "\\Dissonance\\Http\\Cookie\\": "src/"
+      "Symbiotic\\Http\\Cookie\\": "src/Http/Cookie"
     }
   },
   "extra": {
-    "dissonance" : {
-      "providers" : "Dissonance\\Http\\Cookie\\CookiesProvider"
+    "Symbiotic" : {
+      "providers" : "Symbiotic\\Http\\Cookie\\CookiesProvider"
     }
   }
 }

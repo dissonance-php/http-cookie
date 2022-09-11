@@ -1,4 +1,4 @@
-# Dissonance Http Cookie
+# Symbiotic Http Cookie
 
 ## Характеристики
 
@@ -13,21 +13,21 @@
 
 ## Установка
 ```
-composer require dissonance/http-cookie 
+composer require symbiotic/http-cookie 
 ```
 
 ## Использование
 
 Для более простой работы в пакете есть готовая PSR-15 Middleware, 
-которая сама примет из запроса куки и отправит отправит установленные в ответ:
+которая сама примет из запроса куки и отправит установленные в ответ:
 
-\Dissonance\Http\Cookie\CookiesMiddleware
+\Symbiotic\Http\Cookie\CookiesMiddleware
 
 
 ##### Инициализация
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 // Установка дефолтных значений
 $domain  = 'example.com';
@@ -35,7 +35,7 @@ $path    = '/';
 $expires = time() + (3600 * 24 * 365);
 $secure = true; // only https
 // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#attributes
-$same_site = \Dissonance\Http\Cookie\CookiesInterface::SAMESITE_LAX;
+$same_site = \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_LAX;
 
 $cookies->setDefaults($domain, $path, $expires, $secure, $same_site);
 
@@ -59,7 +59,7 @@ $cookies->setRequestCookies($_COOKIE);
 
 ```php
 
-$cookies = new Dissonance\Http\Cookie\Cookies();
+$cookies = new Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Проверка наличия куки из запроса, кука с пустым значением тоже считается
@@ -83,11 +83,11 @@ $cookies->get('cookie_name', 'default_value'); // return string
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Короткий способ добавления куки, остальные параметры берутся из дефолтных значений , установленных в методе
- * @see \Dissonance\Http\Cookie\Cookies::setDefaults()
+ * @see \Symbiotic\Http\Cookie\Cookies::setDefaults()
  */
 $cookies->set('cookie_name', 'cookie value');
 
@@ -100,7 +100,7 @@ $path    = '/docs';
 $expires = time()+300; // метка времени на 5 минут вперед
 $secure = false; // only https
 $http_only = true; // only http request access
-$options = ['samesite' => \Dissonance\Http\Cookie\CookiesInterface::SAMESITE_STRICT]; // advanced params
+$options = ['samesite' => \Symbiotic\Http\Cookie\CookiesInterface::SAMESITE_STRICT]; // advanced params
 $cookies->setCookie('cookie_name', 'cookie value', $expires, $http_only, $path, $domain, $secure, $options);
 
 ```
@@ -110,11 +110,11 @@ $cookies->setCookie('cookie_name', 'cookie value', $expires, $http_only, $path, 
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Короткий способ удаления куки, остальные параметры берутся из дефолтных значений , установленных в методе
- * @see \Dissonance\Http\Cookie\Cookies::setDefaults()
+ * @see \Symbiotic\Http\Cookie\Cookies::setDefaults()
  */
 $cookies->remove('cookie_name');
 
@@ -148,24 +148,24 @@ $cookies->setCookie('cookie_name', '', $expires, null, $path, $domain);
 
 ```php
 
-$cookies = new \Dissonance\Http\Cookie\Cookies();
+$cookies = new \Symbiotic\Http\Cookie\Cookies();
 
 /**
  * Получение куки из запроса
- * @see \Dissonance\Http\Cookie\Cookies::get($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::get($key)
  */
 $cookies['cookie_name']; // string or null 
 
 /**
  * Установка куки  
  * (домен и остальные параметры берутся из дефолтных)
- * @see \Dissonance\Http\Cookie\Cookies::set($key, $value)
+ * @see \Symbiotic\Http\Cookie\Cookies::set($key, $value)
  */
 $cookies['new_cookie'] = 'value';
 
 /**
  * Проверка сущесвования куки из запроса
- * @see \Dissonance\Http\Cookie\Cookies::has($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::has($key)
  */
 $exists  = isset($cookies['new_cookie']);
 
@@ -173,7 +173,7 @@ $exists  = isset($cookies['new_cookie']);
 
 /**
  * Удаление куки
- * @see \Dissonance\Http\Cookie\Cookies::remove($key)
+ * @see \Symbiotic\Http\Cookie\Cookies::remove($key)
  */
 unset($cookies['cookie_name']);
 
