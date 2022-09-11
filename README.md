@@ -13,7 +13,7 @@ README.RU.md  [РУССКОЕ ОПИСАНИЕ](https://github.com/Symbiotic-php
 
 ## Installation
 ```
-composer require Symbiotic/http-cookie 
+composer require symbiotic/http-cookie 
 ```
 
 ## Using
