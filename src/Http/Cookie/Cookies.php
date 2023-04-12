@@ -148,7 +148,7 @@ class Cookies implements CookiesInterface
     /**
      * @param array $cookies [ name => value...]
      */
-    public function setRequestCookies(array $cookies):void
+    public function setRequestCookies(array $cookies): void
     {
         $this->request_cookies = $cookies;
     }
@@ -182,7 +182,7 @@ class Cookies implements CookiesInterface
     /**
      * @inheritDoc
      */
-    public function get(string $name, string $default = null):array|string|null
+    public function get(string $name, string $default = null): array|string|null
     {
         $cookies = $this->request_cookies;
         return $cookies[$name] ?? $default;
@@ -261,7 +261,7 @@ class Cookies implements CookiesInterface
      *
      * @return mixed
      */
-    public function offsetExists($key)
+    public function offsetExists(mixed $key): bool
     {
         return $this->has($key);
     }
@@ -274,7 +274,7 @@ class Cookies implements CookiesInterface
      * @return string or null if not exists
      * @uses get()
      */
-    public function offsetGet($key)
+    public function offsetGet(mixed $key): mixed
     {
         return $this->get($key);
     }
@@ -287,7 +287,7 @@ class Cookies implements CookiesInterface
      *
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->set($key, $value);
     }
@@ -299,7 +299,7 @@ class Cookies implements CookiesInterface
      *
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset(mixed $key): void
     {
         $this->remove($key);
     }
